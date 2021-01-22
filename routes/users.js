@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken')
 const config = require('config')
 const { check, validationResult } = require('express-validator')
 
-const User = require('../models/User')
+const User = require('../models/user')
 
 // @route    POST api/users
 // @desc     Register a user
@@ -24,7 +24,7 @@ router.post(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() })
     }
-    
+
     const { name, email, password } = req.body
 
     try {
@@ -51,13 +51,17 @@ router.post(
         },
       }
 
-      jwt.sign(payload, config.get('jwtSecret'), {
-        expiresIn: 3600
-      }, (err, token) => {
-        if(err) throw err
-        res.json({token})
-      })
-
+      jwt.sign(
+        payload,
+        config.get('jwtSecret'),
+        {
+          expiresIn: 3600,
+        },
+        (err, token) => {
+          if (err) throw err
+          res.json({ token })
+        }
+      )
     } catch (err) {
       console.error(err.message)
       res.status(500).send('Server error')
