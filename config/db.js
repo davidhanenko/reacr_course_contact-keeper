@@ -12,10 +12,6 @@ const connectDB = async () => {
     })
     console.log('MondoDB Connected')
 
-    process.on('uncaughtException', (err) => {
-      console.log(`Uncaught Exception: ${err.message}`)
-      process.exit(1)
-    })
   } catch (err) {
     console.error(err.message)
     process.exit(1)
